@@ -22,7 +22,7 @@ public class Lab4 {
         System.out.println("hi");
 
         System.out.println("Ayman");
-
+        System.out.println("we are cooked");
     }
     
 }
