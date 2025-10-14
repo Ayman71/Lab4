@@ -16,13 +16,7 @@ public class Lab4 {
     public static void main(String[] args) {
 
         // TODO code application logic here
-        
-        
-        System.out.println("bye");
-        System.out.println("hi");
-
-        System.out.println("Ayman");
-        System.out.println("we are cooked");
+       
     }
     
 }
