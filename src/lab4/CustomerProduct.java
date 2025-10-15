@@ -1,5 +1,6 @@
 package lab4;
 
+import java.awt.datatransfer.FlavorListener;
 import java.time.LocalDate;
 
 /**
@@ -10,7 +11,7 @@ public class CustomerProduct {
 
     private final String customerSSN;
     private final String productID;
-    private boolean paid;
+    private boolean paid = false;
     private final LocalDate purchaseDate;
 
     public CustomerProduct(String customerSSN, String productID, LocalDate purchaseDate) {
@@ -61,8 +62,12 @@ public class CustomerProduct {
     }
 
     public String getSearchKey() {
-
-        return lineRepresentation();
+        int day = this.purchaseDate.getDayOfMonth();
+        int month = this.purchaseDate.getMonthValue();
+        int year = this.purchaseDate.getYear();
+        
+        String date = String.format("%02d-%02d", day, month);
+        return this.customerSSN + "," + this.productID + "," + date + "-" + year;
     }
 
 }
