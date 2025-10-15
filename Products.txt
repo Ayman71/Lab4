@@ -1,0 +1,6 @@
+P2394,Laptop,Apple,TechSupplier,10,1500 
+P2395,Smartphone,Samsung,MobileWorld,25,900
+P2396,Headphones,Sony,AudioPlus,40,120
+P2397,Tablet,Lenovo,TechHub,15,650
+P2398,Monitor,LG,DisplayZone,8,800
+P2399,Keyboard,Logitech,PeripheralStore,30,75
