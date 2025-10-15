@@ -1,94 +1,68 @@
-
 package lab4;
+
 import java.time.LocalDate;
 
+/**
+ *
+ * @author husse
+ */
 public class CustomerProduct {
-    
-    private String customerSSN;
-    private String productID;
+
+    private final String customerSSN;
+    private final String productID;
     private boolean paid;
-    private LocalDate purchaseDate;        
-    
-    
-    
-    
-    
-    
-    
-    public CustomerProduct(String customerSSN, String productID, LocalDate
-purchaseDate){
-    
-        this.customerSSN=customerSSN;
-        this.productID=productID;
-        this.purchaseDate=purchaseDate;
-                
-    
-    
-    
+    private final LocalDate purchaseDate;
+
+    public CustomerProduct(String customerSSN, String productID, LocalDate purchaseDate) {
+
+        this.customerSSN = customerSSN;
+        this.productID = productID;
+        this.purchaseDate = purchaseDate;
+
     }
-    
-    
-    public String getCustomerSSN()
-    {
-      return this.customerSSN;
-    
+
+    public String getCustomerSSN() {
+        return this.customerSSN;
+
     }
-    
-    public String getProductID()
-    {
-      
-    return this.productID;
-    
+
+    public String getProductID() {
+
+        return this.productID;
+
     }
-    
-    public LocalDate getPurchaseDate()
-    {
-    
-    return this.purchaseDate;
-    
+
+    public LocalDate getPurchaseDate() {
+
+        return this.purchaseDate;
+
     }
-    
-    public String lineRepresentation() 
-    {
-        
-        int day=this.purchaseDate.getDayOfMonth();
-        int month=this.purchaseDate.getMonthValue();
-        int year=this.purchaseDate.getYear();
-        
-        String date= String.format("%02d-%02d",day,month);
-        
-        return this.customerSSN + "," + this.productID + "," + date + "-" + year + ","  + this.paid;
-    
-    
-    
-    
+
+    public String lineRepresentation() {
+
+        int day = this.purchaseDate.getDayOfMonth();
+        int month = this.purchaseDate.getMonthValue();
+        int year = this.purchaseDate.getYear();
+
+        String date = String.format("%02d-%02d", day, month);
+
+        return this.customerSSN + "," + this.productID + "," + date + "-" + year + "," + this.paid;
+
     }
-    
-    public boolean isPaid()
-            
-    {
-       return this.paid;
-    
+
+    public boolean isPaid() {
+        return this.paid;
+
     }
-    
-    public void setPaid(boolean paid)
-            
-    {
-      this.paid=paid;
-    
-    
+
+    public void setPaid(boolean paid) {
+        this.paid = paid;
+
     }
-    
-    public String getSearchKey()
-            
-    {   int day=this.purchaseDate.getDayOfMonth();
-        int month=this.purchaseDate.getMonthValue();
-        int year=this.purchaseDate.getYear();
-        
-        String date= String.format("%02d-%02d",day,month);
-        
-        return this.customerSSN + "," + this.productID + "," + date + "-" + year;
+
+    public String getSearchKey() {
+
+        return lineRepresentation();
     }
-    
-    
+
 }
