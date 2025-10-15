@@ -7,6 +7,7 @@ package lab4;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -14,83 +15,82 @@ import java.util.Scanner;
  *
  * @author Ayman
  */
-public class EmployeeUserDatabase {
+public class CustomerProductDatabase {
 
-    private ArrayList<EmployeeUser> records;
+    private ArrayList<CustomerProduct> records;
     private final String filename;
 
-    public EmployeeUserDatabase(String filename) {
+    public CustomerProductDatabase(String filename) {
         this.filename = filename;
     }
 
     public void readFromFile() throws FileNotFoundException {
         File file = new File(filename);
         Scanner scanner = new Scanner(file);
-        records = new ArrayList<EmployeeUser>();
+        records = new ArrayList<CustomerProduct>();
 
         while (scanner.hasNextLine()) {
             String line = scanner.nextLine();
-            EmployeeUser employeeUser = createRecordFrom(line);
-            records.add(employeeUser);
+            CustomerProduct customerProduct = createRecordFrom(line);
+            insertRecord(customerProduct);
         }
-
     }
-
-    public EmployeeUser createRecordFrom(String line) {
+    public CustomerProduct createRecordFrom(String line) {
         String[] tokens = line.split(",");
-        String employeeID = tokens[0];
-        String name = tokens[1];
-        String email = tokens[2];
-        String address = tokens[3];
-        String phoneNumber = tokens[4];
-        EmployeeUser employeeUser = new EmployeeUser(employeeID, name, email, address, phoneNumber);
-        return employeeUser;
+        String customerSSN = tokens[0];
+        String productID = tokens[1];
+        String[] dateTokens = tokens[2].split("-");
+        boolean paid = Boolean.parseBoolean(tokens[3]);
+        LocalDate purchaseDate =LocalDate.of(Integer.parseInt(dateTokens[2]), Integer.parseInt(dateTokens[1]), Integer.parseInt(dateTokens[0]));
+        CustomerProduct customerProduct = new CustomerProduct(customerSSN, productID, purchaseDate);
+        customerProduct.setPaid(paid);
+        return customerProduct;
     }
-
-    public ArrayList<EmployeeUser> returnAllRecords() {
+    
+    public ArrayList<CustomerProduct> returnAllRecords() {
         return records;
     }
-
+    
     public boolean contains(String key) {
         for (int i = 0; i < records.size(); i++) {
-            if (records.get(i).getEmployeeId().equals(key)) {
+            if (records.get(i).getSearchKey().equals(key)) {
                 return true;
             }
         }
         return false;
     }
-
-    public EmployeeUser getRecord(String key) {
+    
+     public CustomerProduct getRecord(String key) {
         if (contains(key)) {
             for (int i = 0; i < records.size(); i++) {
-                if (records.get(i).getEmployeeId().equals(key)) {
+                if (records.get(i).getSearchKey().equals(key)) {
                     return records.get(i);
                 }
             }
         } else {
-            System.out.println("No employee assocciated with this ID.");
+            System.out.println("No such purchase operation found.");
         }
         return null;
     }
-
-    public void insertRecord(EmployeeUser record) throws FileNotFoundException {
+     
+    public void insertRecord(CustomerProduct record) throws FileNotFoundException {
         records.add(record);
         saveToFile();
     }
-
+    
     public void deleteRecord(String key) throws FileNotFoundException {
         if (contains(key)) {
             for (int i = 0; i < records.size(); i++) {
-                if (records.get(i).getEmployeeId().equals(key)) {
+                if (records.get(i).getSearchKey().equals(key)) {
                     records.remove(i);
                     saveToFile();
                 }
             }
         } else {
-            System.out.println("No employee assocciated with this ID.");
+            System.out.println("No such purchase operation found.");
         }
     }
-
+    
     public void saveToFile() throws FileNotFoundException {
         PrintWriter pw = new PrintWriter(filename);
         for (int i = 0; i < records.size(); i++) {

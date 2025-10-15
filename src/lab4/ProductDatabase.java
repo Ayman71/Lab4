@@ -14,66 +14,67 @@ import java.util.Scanner;
  *
  * @author Ayman
  */
-public class EmployeeUserDatabase {
+public class ProductDatabase {
 
-    private ArrayList<EmployeeUser> records;
+    private ArrayList<Product> records;
     private final String filename;
 
-    public EmployeeUserDatabase(String filename) {
+    public ProductDatabase(String filename) {
         this.filename = filename;
     }
 
     public void readFromFile() throws FileNotFoundException {
         File file = new File(filename);
         Scanner scanner = new Scanner(file);
-        records = new ArrayList<EmployeeUser>();
+        records = new ArrayList<Product>();
 
         while (scanner.hasNextLine()) {
             String line = scanner.nextLine();
-            EmployeeUser employeeUser = createRecordFrom(line);
-            records.add(employeeUser);
+            Product product = createRecordFrom(line);
+            insertRecord(product);
         }
 
     }
 
-    public EmployeeUser createRecordFrom(String line) {
+    public Product createRecordFrom(String line) {
         String[] tokens = line.split(",");
-        String employeeID = tokens[0];
-        String name = tokens[1];
-        String email = tokens[2];
-        String address = tokens[3];
-        String phoneNumber = tokens[4];
-        EmployeeUser employeeUser = new EmployeeUser(employeeID, name, email, address, phoneNumber);
-        return employeeUser;
+        String productID = tokens[0];
+        String productName = tokens[1];
+        String manufacturerName = tokens[2];
+        String supplierName = tokens[3];
+        int quantity = Integer.parseInt(tokens[4]);
+        float price = Float.parseFloat(tokens[5]);
+        Product product = new Product(productID, productName, manufacturerName, supplierName, quantity, price);
+        return product;
     }
 
-    public ArrayList<EmployeeUser> returnAllRecords() {
+    public ArrayList<Product> returnAllRecords() {
         return records;
     }
 
     public boolean contains(String key) {
         for (int i = 0; i < records.size(); i++) {
-            if (records.get(i).getEmployeeId().equals(key)) {
+            if (records.get(i).getProductID().equals(key)) {
                 return true;
             }
         }
         return false;
     }
 
-    public EmployeeUser getRecord(String key) {
+    public Product getRecord(String key) {
         if (contains(key)) {
             for (int i = 0; i < records.size(); i++) {
-                if (records.get(i).getEmployeeId().equals(key)) {
+                if (records.get(i).getProductID().equals(key)) {
                     return records.get(i);
                 }
             }
         } else {
-            System.out.println("No employee assocciated with this ID.");
+            System.out.println("No product assocciated with this ID.");
         }
         return null;
     }
 
-    public void insertRecord(EmployeeUser record) throws FileNotFoundException {
+    public void insertRecord(Product record) throws FileNotFoundException {
         records.add(record);
         saveToFile();
     }
@@ -81,13 +82,13 @@ public class EmployeeUserDatabase {
     public void deleteRecord(String key) throws FileNotFoundException {
         if (contains(key)) {
             for (int i = 0; i < records.size(); i++) {
-                if (records.get(i).getEmployeeId().equals(key)) {
+                if (records.get(i).getProductID().equals(key)) {
                     records.remove(i);
                     saveToFile();
                 }
             }
         } else {
-            System.out.println("No employee assocciated with this ID.");
+            System.out.println("No product assocciated with this ID.");
         }
     }
 
@@ -98,4 +99,5 @@ public class EmployeeUserDatabase {
         }
         pw.close();
     }
+
 }
