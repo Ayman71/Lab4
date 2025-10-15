@@ -23,7 +23,7 @@ public class EmployeeUserDatabase {
         this.filename = filename;
     }
 
-    public void readFromeFile() throws FileNotFoundException {
+    public void readFromFile() throws FileNotFoundException {
         File file = new File(filename);
         Scanner scanner = new Scanner(file);
         records = new ArrayList<EmployeeUser>();
