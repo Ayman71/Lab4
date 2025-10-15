@@ -1,7 +1,10 @@
 
 package lab4;
 import java.time.LocalDate;
-
+/**
+ *
+ * @author husse
+ */
 public class CustomerProduct {
     
     private String customerSSN;
