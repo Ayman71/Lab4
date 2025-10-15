@@ -53,7 +53,7 @@ public class EmployeeUserDatabase {
 
     public boolean contains(String key) {
         for (int i = 0; i < records.size(); i++) {
-            if (records.get(i).getEmployeeId().equals(key)) {
+            if (records.get(i).getSearchKey().equals(key)) {
                 return true;
             }
         }
@@ -63,7 +63,7 @@ public class EmployeeUserDatabase {
     public EmployeeUser getRecord(String key) {
         if (contains(key)) {
             for (int i = 0; i < records.size(); i++) {
-                if (records.get(i).getEmployeeId().equals(key)) {
+                if (records.get(i).getSearchKey().equals(key)) {
                     return records.get(i);
                 }
             }
@@ -81,7 +81,7 @@ public class EmployeeUserDatabase {
     public void deleteRecord(String key) throws FileNotFoundException {
         if (contains(key)) {
             for (int i = 0; i < records.size(); i++) {
-                if (records.get(i).getEmployeeId().equals(key)) {
+                if (records.get(i).getSearchKey().equals(key)) {
                     records.remove(i);
                     saveToFile();
                 }
