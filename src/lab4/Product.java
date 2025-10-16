@@ -25,7 +25,17 @@ public class Product {
       
        
    }
-
+   public int getQuantity(){
+       return quantity;
+   }
+ public void setQuantity(int quantity) {
+    if (quantity >= 0) {
+        this.quantity = quantity;
+    } 
+    else{ 
+        System.out.println("invalid quantity parameter");
+    }
+    }
    
    public String lineRepresentation() {
         return productID+","+productName+","+manufacturerName+","+supplierName+","+quantity+","+price;
