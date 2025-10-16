@@ -76,7 +76,7 @@ public class ProductDatabase {
 
     public void insertRecord(Product record) throws FileNotFoundException {
         records.add(record);
-        saveToFile();
+        //saveToFile();
     }
 
     public void deleteRecord(String key) throws FileNotFoundException {
@@ -84,7 +84,7 @@ public class ProductDatabase {
             for (int i = 0; i < records.size(); i++) {
                 if (records.get(i).getProductID().equals(key)) {
                     records.remove(i);
-                    saveToFile();
+                    //saveToFile();
                 }
             }
         } else {

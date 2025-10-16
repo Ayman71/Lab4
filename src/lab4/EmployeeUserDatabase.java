@@ -75,7 +75,6 @@ public class EmployeeUserDatabase {
 
     public void insertRecord(EmployeeUser record) throws FileNotFoundException {
         records.add(record);
-        saveToFile();
     }
 
     public void deleteRecord(String key) throws FileNotFoundException {
@@ -83,7 +82,6 @@ public class EmployeeUserDatabase {
             for (int i = 0; i < records.size(); i++) {
                 if (records.get(i).getSearchKey().equals(key)) {
                     records.remove(i);
-                    saveToFile();
                 }
             }
         } else {
