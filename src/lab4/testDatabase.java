@@ -15,9 +15,9 @@ import java.util.ArrayList;
  */
 public class testDatabase {
     public static void main(String[] args) throws FileNotFoundException {
-//        EmployeeUserDatabase employeeUserDatabase = new EmployeeUserDatabase("Employees.txt");
-//        employeeUserDatabase.readFromFile();
-//        ArrayList<EmployeeUser> arr = employeeUserDatabase.returnAllRecords();
+        EmployeeUserDatabase employeeUserDatabase = new EmployeeUserDatabase("Employees.txt");
+        employeeUserDatabase.readFromFile();
+        ArrayList<EmployeeUser> arr = employeeUserDatabase.returnAllRecords();
 //        
 //        for (int i = 0; i < arr.size(); i++) {
 //            System.out.println((i+1) + "- " + arr.get(i).lineRepresentation());

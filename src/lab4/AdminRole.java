@@ -1,5 +1,7 @@
 package lab4;
 
+import java.io.FileNotFoundException;
+
 /**
  *
  * @author husse
@@ -8,9 +10,8 @@ public class AdminRole {
 
     private EmployeeUserDatabase database;
 
-    public AdminRole() {   // compostion relationship as admin role is part of data base
+    public AdminRole() throws FileNotFoundException {   // compostion relationship as admin role is part of data base
         database = new EmployeeUserDatabase("Employees.txt");
-
         database.readFromFile();
 
     }
@@ -22,10 +23,11 @@ public class AdminRole {
 
 // duplicate employee check
         if (database.contains(employeeId)) {
-            System.out.println("cant add this employee already exists");
-            return;
+            System.out.println("Can't add this employee already exists!");
+
         } else {
             database.insertRecord(newEmp);
+            //logout();
 
         }
 
@@ -39,23 +41,15 @@ public class AdminRole {
     }
 
     public void removeEmployee(String key) throws FileNotFoundException {
-        if (!(database.contains(key))
-                   {
-            System.out.println("cant delete this employee not exsiting");
-            return;
-
+        if (!(database.contains(key))) {
+            System.out.println("No employee assocciated with this ID.");
         } else {
-
             database.deleteRecord(key);
-
+            //logout();
         }
-    
-    
+    }
 
     public void logout() throws FileNotFoundException {
-
         database.saveToFile();
     }
-}
-
 }
