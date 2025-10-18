@@ -38,4 +38,6 @@ public class Product {
     public String getSearchKey() {
         return productID;
     }
+
 }
+
