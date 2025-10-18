@@ -9,47 +9,23 @@ package lab4;
  * @author Mariam
  */
 public class EmployeeUser {
-    private String EmployeeId, Name, Email, Address, PhoneNumber;
-    public EmployeeUser(String EmployeeId, String Name, String Email, String Address, 
-String PhoneNumber)
-    {
-        this.EmployeeId=EmployeeId;
-        this.Name=Name;
-        this.Email=Email;
-        this.Address=Address;
-        this.PhoneNumber=PhoneNumber;
-        
-        
-    }
-    public String getEmployeeId()
-    {
-        return EmployeeId;
-    }
-    public String getName()
-    {
-        return Name;
-    }
-    public String getEmail()
-    {
-        return Email;
-    }
-     public String getAddress()
-    {
-        return Address;
-    }
-      public String getPhoneNumber()
-    {
-        return PhoneNumber;
+
+    private final String employeeId, name, email, address, phoneNumber;
+
+    public EmployeeUser(String employeeId, String name, String email, String address, String phoneNumber) {
+        this.employeeId = employeeId;
+        this.name = name;
+        this.email = email;
+        this.address = address;
+        this.phoneNumber = phoneNumber;
     }
 
-    public String lineRepresentation()
-    {
-       return EmployeeId+","+Name+","+Email+","+Address+","+PhoneNumber;
-    } 
-    
-    public String getSearchKey()
-    {
-        return EmployeeId;
-    } 
+    public String lineRepresentation() {
+        return employeeId + "," + name + "," + email + "," + address + "," + phoneNumber;
+    }
+
+    public String getSearchKey() {
+        return employeeId;
+    }
 
 }

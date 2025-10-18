@@ -5,14 +5,15 @@
         <group>
             <file>file:/D:/GitHub/Lab4/src/lab4/Lab4.java</file>
             <file>file:/D:/GitHub/Lab4/src/lab4/CustomerProduct.java</file>
-            <file>file:/D:/GitHub/Lab4/src/lab4/testDatabase.java</file>
             <file>file:/D:/GitHub/Lab4/src/lab4/EmployeeUser.java</file>
-            <file>file:/D:/GitHub/Lab4/src/lab4/EmployeeUserDatabase.java</file>
             <file>file:/D:/GitHub/Lab4/src/lab4/Product.java</file>
-            <file>file:/D:/GitHub/Lab4/src/lab4/ProductDatabase.java</file>
-            <file>file:/D:/GitHub/Lab4/src/lab4/testAdminRole.java</file>
             <file>file:/D:/GitHub/Lab4/src/lab4/AdminRole.java</file>
+            <file>file:/D:/GitHub/Lab4/src/lab4/ProductDatabase.java</file>
             <file>file:/D:/GitHub/Lab4/src/lab4/CustomerProductDatabase.java</file>
+            <file>file:/D:/GitHub/Lab4/src/lab4/testAdminRole.java</file>
+            <file>file:/D:/GitHub/Lab4/src/lab4/EmployeeRole.java</file>
+            <file>file:/D:/GitHub/Lab4/src/lab4/testEmployeeRole.java</file>
+            <file>file:/D:/GitHub/Lab4/src/lab4/TestClass.java</file>
         </group>
     </open-files>
 </project-private>

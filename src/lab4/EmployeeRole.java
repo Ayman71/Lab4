@@ -2,7 +2,6 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-
 package lab4;
 
 import java.io.FileNotFoundException;
@@ -14,118 +13,96 @@ import java.time.LocalDate;
  */
 public class EmployeeRole {
 
-    private ProductDatabase productsDatabase;
-    private CustomerProductDatabase customerProductDatabase;
+    private final ProductDatabase productsDatabase;
+    private final CustomerProductDatabase customerProductDatabase;
 
     public EmployeeRole() {
         productsDatabase = new ProductDatabase("Products.txt");
-        customerProductDatabase = new CustomerProductDatabase("CustomerProduct.txt");
+        customerProductDatabase = new CustomerProductDatabase("CustomersProducts.txt");
     }
 
- public void addProduct(String productID, String productName, String manufacturerName, String supplierName, int quantity) {
-      try   {
-            float price = 10;
-            Product product = new Product(productID, productName, manufacturerName, supplierName, quantity, price);
-            productsDatabase.readFromFile();
-            productsDatabase.insertRecord(product);
-            productsDatabase.saveToFile();
-        } catch (FileNotFoundException x) {
-            System.out.println("File Not Found.");
-        }
- }
-   public Product[] getListOfProducts() {
-    try {
+    public void addProduct(String productID, String productName, String manufacturerName, String supplierName, int quantity, float price) throws FileNotFoundException {
+        Product product = new Product(productID, productName, manufacturerName, supplierName, quantity, price);
+        productsDatabase.readFromFile();
+        productsDatabase.insertRecord(product);
+    }
+
+    public Product[] getListOfProducts() throws FileNotFoundException {
         productsDatabase.readFromFile();
         return productsDatabase.returnAllRecords().toArray(new Product[0]);
-    } catch (FileNotFoundException  x) {
-        System.out.println("File Not Found.");
-        return new Product[0];
-    }}
-    public CustomerProduct[] getListOfPurchasingOperations() {
-        try {
-            customerProductDatabase.readFromFile();
-            return customerProductDatabase.returnAllRecords().toArray(new CustomerProduct[0]);
-        } catch (FileNotFoundException x) {
-            System.out.println("File Not Found.");
-            return new CustomerProduct[0];
-        }
     }
-     public boolean purchaseProduct(String customerSSN, String productID, LocalDate purchaseDate) {
-        try {
-            productsDatabase.readFromFile();
-            customerProductDatabase.readFromFile();
+
+    public CustomerProduct[] getListOfPurchasingOperations() throws FileNotFoundException {
+        customerProductDatabase.readFromFile();
+        return customerProductDatabase.returnAllRecords().toArray(new CustomerProduct[0]);
+    }
+
+    public boolean purchaseProduct(String customerSSN, String productID, LocalDate purchaseDate) throws FileNotFoundException {
+
+        productsDatabase.readFromFile();
+        customerProductDatabase.readFromFile();
+
+        if (!productsDatabase.contains(productID)) {
+            System.out.println("Product not found!");
+            return false;
+        } else {
             Product product = productsDatabase.getRecord(productID);
-            if (product == null) {
-                System.out.println("Product not found!");
-                return false;
-            }
             if (product.getQuantity() == 0) {
                 System.out.println("Product out of stock!");
                 return false;
-            }
-            product.setQuantity(product.getQuantity() - 1);
-            CustomerProduct cx = new CustomerProduct(customerSSN, productID, purchaseDate);
-            customerProductDatabase.insertRecord(cx);
-            productsDatabase.saveToFile();
-            customerProductDatabase.saveToFile();
-            System.out.println("Purchase successful!");
-            return true;
-        } catch (FileNotFoundException x) {
-            System.out.println("File Not Found.");
-            return false;
-        }
-    }
-     public double returnProduct(String customerSSN, String productID, LocalDate purchaseDate, LocalDate returnDate) {
-        try {
-            productsDatabase.readFromFile();
-            customerProductDatabase.readFromFile();
-            Product product = productsDatabase.getRecord(productID);
-            if (product == null) 
-                return -1;
-            if (returnDate.isBefore(purchaseDate)) 
-                return -1;
-            if (customerProductDatabase.contains(customerSSN, productID, purchaseDate)) 
-                return -1;
-            // Ftret sma7 within 14 days
-            if (returnDate.isAfter(purchaseDate.plusDays(14))) return -1;
-            product.setQuantity(product.getQuantity() + 1);
-            customerProductDatabase.deleteRecord(customerSSN, productID, purchaseDate);
-            productsDatabase.saveToFile();
-            customerProductDatabase.saveToFile();
-            System.out.println("Product returned successfully!");
-            return product.getPrice();
-        } catch (FileNotFoundException x) {
-            System.out.println("File Not Found.");
-            return -1;
-        }
-    }
-     public boolean applyPayment(String customerSSN, LocalDate purchaseDate) {
-        try {
-            customerProductDatabase.readFromFile();
-            CustomerProduct record = customerProductDatabase.findRecord(customerSSN, purchaseDate);
-            if (record != null && !record.isPaid()) {
-                record.setPaid(true);
-                customerProductDatabase.saveToFile();
-                System.out.println("Payment applied!");
-                return true;
             } else {
-                System.out.println("Record not found or already paid.");
+                product.setQuantity(product.getQuantity() - 1);
+                CustomerProduct customerProduct = new CustomerProduct(customerSSN, productID, purchaseDate);
+                customerProductDatabase.insertRecord(customerProduct);
+                System.out.println("Purchase successful!");
+                return true;
             }
-
-        } catch (FileNotFoundException x) {
-            System.out.println("File Not Found.");
         }
-        return false;
     }
-    public void logout() {
-        try {
-            productsDatabase.saveToFile();
-            customerProductDatabase.saveToFile();
-            System.out.println("All data saved. Logged out.");
-        } catch (FileNotFoundException e) {
-            System.out.println("File Not Found.");
+
+    public double returnProduct(String customerSSN, String productID, LocalDate purchaseDate, LocalDate returnDate) throws FileNotFoundException {
+        productsDatabase.readFromFile();
+        customerProductDatabase.readFromFile();
+        CustomerProduct customerProduct = new CustomerProduct(customerSSN, productID, purchaseDate);
+        if (!customerProductDatabase.contains(customerProduct.getSearchKey())) {
+            System.out.println("No such purchase operation found!");
+            return -1;
+        } else if (!productsDatabase.contains(productID)) {
+            System.out.println("No product assocciated with this ID!");
+            return -1;
+        } else if (returnDate.isAfter(purchaseDate.plusDays(14))) {
+            System.out.println("14-Days limit exceeded!");
+            return -1;
+        } else {
+            Product product = productsDatabase.getRecord(productID);
+            productsDatabase.getRecord(productID).setQuantity(productsDatabase.getRecord(productID).getQuantity() + 1);
+            customerProductDatabase.deleteRecord(customerProduct.getSearchKey());
+            System.out.println("Product returned successfully!");
+            double price = Double.parseDouble(product.lineRepresentation().split(",")[5]);
+            return price;
         }
+    }
+
+    public boolean applyPayment(String customerSSN, LocalDate purchaseDate) throws FileNotFoundException {
+        customerProductDatabase.readFromFile();
+        for (CustomerProduct customerProduct : customerProductDatabase.returnAllRecords()) {
+            if (customerProduct.getCustomerSSN().equals(customerSSN) && customerProduct.getPurchaseDate().equals(purchaseDate)) {
+                if (!customerProduct.isPaid()) {
+                    customerProductDatabase.getRecord(customerProduct.getSearchKey()).setPaid(true);
+                    System.out.println("Payment updated successfully!");
+                    return true;
+                }
+                System.out.println("Purchase operation already paid.");
+                return false;
+            }
+        }
+        System.out.println("Purchase operation not found");
+            return false;
+    }
+
+    public void logout() throws FileNotFoundException {
+        productsDatabase.saveToFile();
+        customerProductDatabase.saveToFile();
+        System.out.println("All data saved. Logged out.");
     }
 }
-}   
-

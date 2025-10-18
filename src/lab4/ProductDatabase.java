@@ -54,7 +54,7 @@ public class ProductDatabase {
 
     public boolean contains(String key) {
         for (int i = 0; i < records.size(); i++) {
-            if (records.get(i).getProductID().equals(key)) {
+            if (records.get(i).getSearchKey().equals(key)) {
                 return true;
             }
         }
@@ -64,7 +64,7 @@ public class ProductDatabase {
     public Product getRecord(String key) {
         if (contains(key)) {
             for (int i = 0; i < records.size(); i++) {
-                if (records.get(i).getProductID().equals(key)) {
+                if (records.get(i).getSearchKey().equals(key)) {
                     return records.get(i);
                 }
             }
@@ -82,7 +82,7 @@ public class ProductDatabase {
     public void deleteRecord(String key) throws FileNotFoundException {
         if (contains(key)) {
             for (int i = 0; i < records.size(); i++) {
-                if (records.get(i).getProductID().equals(key)) {
+                if (records.get(i).getSearchKey().equals(key)) {
                     records.remove(i);
                     //saveToFile();
                 }
