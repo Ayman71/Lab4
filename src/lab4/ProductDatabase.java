@@ -19,8 +19,9 @@ public class ProductDatabase {
     private ArrayList<Product> records;
     private final String filename;
 
-    public ProductDatabase(String filename) {
+    public ProductDatabase(String filename) throws FileNotFoundException {
         this.filename = filename;
+        readFromFile();
     }
 
     public void readFromFile() throws FileNotFoundException {

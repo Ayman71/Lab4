@@ -8,7 +8,7 @@ import java.io.FileNotFoundException;
  */
 public class AdminRole {
 
-    private EmployeeUserDatabase database;
+    private final EmployeeUserDatabase database;
 
     public AdminRole() throws FileNotFoundException {   // compostion relationship as admin role is part of data base
         database = new EmployeeUserDatabase("Employees.txt");
