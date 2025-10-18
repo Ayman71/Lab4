@@ -20,8 +20,9 @@ public class CustomerProductDatabase {
     private ArrayList<CustomerProduct> records;
     private final String filename;
 
-    public CustomerProductDatabase(String filename) {
+    public CustomerProductDatabase(String filename) throws FileNotFoundException {
         this.filename = filename;
+        readFromFile();
     }
 
     public void readFromFile() throws FileNotFoundException {

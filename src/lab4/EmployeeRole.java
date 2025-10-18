@@ -16,32 +16,28 @@ public class EmployeeRole {
     private final ProductDatabase productsDatabase;
     private final CustomerProductDatabase customerProductDatabase;
 
-    public EmployeeRole() {
+    public EmployeeRole() throws FileNotFoundException {
         productsDatabase = new ProductDatabase("Products.txt");
         customerProductDatabase = new CustomerProductDatabase("CustomersProducts.txt");
+        customerProductDatabase.readFromFile();
+        productsDatabase.readFromFile();
+       
     }
 
     public void addProduct(String productID, String productName, String manufacturerName, String supplierName, int quantity, float price) throws FileNotFoundException {
         Product product = new Product(productID, productName, manufacturerName, supplierName, quantity, price);
-        productsDatabase.readFromFile();
         productsDatabase.insertRecord(product);
     }
 
     public Product[] getListOfProducts() throws FileNotFoundException {
-        productsDatabase.readFromFile();
         return productsDatabase.returnAllRecords().toArray(new Product[0]);
     }
 
     public CustomerProduct[] getListOfPurchasingOperations() throws FileNotFoundException {
-        customerProductDatabase.readFromFile();
         return customerProductDatabase.returnAllRecords().toArray(new CustomerProduct[0]);
     }
 
     public boolean purchaseProduct(String customerSSN, String productID, LocalDate purchaseDate) throws FileNotFoundException {
-
-        productsDatabase.readFromFile();
-        customerProductDatabase.readFromFile();
-
         if (!productsDatabase.contains(productID)) {
             System.out.println("Product not found!");
             return false;
@@ -61,8 +57,6 @@ public class EmployeeRole {
     }
 
     public double returnProduct(String customerSSN, String productID, LocalDate purchaseDate, LocalDate returnDate) throws FileNotFoundException {
-        productsDatabase.readFromFile();
-        customerProductDatabase.readFromFile();
         CustomerProduct customerProduct = new CustomerProduct(customerSSN, productID, purchaseDate);
         if (!customerProductDatabase.contains(customerProduct.getSearchKey())) {
             System.out.println("No such purchase operation found!");
@@ -84,7 +78,6 @@ public class EmployeeRole {
     }
 
     public boolean applyPayment(String customerSSN, LocalDate purchaseDate) throws FileNotFoundException {
-        customerProductDatabase.readFromFile();
         for (CustomerProduct customerProduct : customerProductDatabase.returnAllRecords()) {
             if (customerProduct.getCustomerSSN().equals(customerSSN) && customerProduct.getPurchaseDate().equals(purchaseDate)) {
                 if (!customerProduct.isPaid()) {
