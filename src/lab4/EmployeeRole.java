@@ -21,7 +21,7 @@ public class EmployeeRole {
         customerProductDatabase = new CustomerProductDatabase("CustomersProducts.txt");
         customerProductDatabase.readFromFile();
         productsDatabase.readFromFile();
-       
+
     }
 
     public void addProduct(String productID, String productName, String manufacturerName, String supplierName, int quantity, float price) throws FileNotFoundException {
@@ -29,12 +29,12 @@ public class EmployeeRole {
         productsDatabase.insertRecord(product);
     }
 
-    public Product[] getListOfProducts() throws FileNotFoundException {
-        return productsDatabase.returnAllRecords().toArray(new Product[0]);
+    public Record[] getListOfProducts() throws FileNotFoundException {
+        return productsDatabase.returnAllRecords().toArray(new Record[0]);
     }
 
-    public CustomerProduct[] getListOfPurchasingOperations() throws FileNotFoundException {
-        return customerProductDatabase.returnAllRecords().toArray(new CustomerProduct[0]);
+    public Record[] getListOfPurchasingOperations() throws FileNotFoundException {
+        return customerProductDatabase.returnAllRecords().toArray(new Record[0]);
     }
 
     public boolean purchaseProduct(String customerSSN, String productID, LocalDate purchaseDate) throws FileNotFoundException {
@@ -42,7 +42,8 @@ public class EmployeeRole {
             System.out.println("Product not found!");
             return false;
         } else {
-            Product product = productsDatabase.getRecord(productID);
+            Record record = productsDatabase.getRecord(productID);
+            Product product = (Product) record;
             if (product.getQuantity() == 0) {
                 System.out.println("Product out of stock!");
                 return false;
@@ -68,8 +69,9 @@ public class EmployeeRole {
             System.out.println("14-Days limit exceeded!");
             return -1;
         } else {
-            Product product = productsDatabase.getRecord(productID);
-            productsDatabase.getRecord(productID).setQuantity(productsDatabase.getRecord(productID).getQuantity() + 1);
+            Record record = productsDatabase.getRecord(productID);
+            Product product = (Product) record;
+            product.setQuantity(product.getQuantity() + 1);
             customerProductDatabase.deleteRecord(customerProduct.getSearchKey());
             System.out.println("Product returned successfully!");
             double price = Double.parseDouble(product.lineRepresentation().split(",")[5]);
@@ -78,10 +80,11 @@ public class EmployeeRole {
     }
 
     public boolean applyPayment(String customerSSN, LocalDate purchaseDate) throws FileNotFoundException {
-        for (CustomerProduct customerProduct : customerProductDatabase.returnAllRecords()) {
+        for (Record record : customerProductDatabase.returnAllRecords()) {
+            CustomerProduct customerProduct = (CustomerProduct) record;
             if (customerProduct.getCustomerSSN().equals(customerSSN) && customerProduct.getPurchaseDate().equals(purchaseDate)) {
                 if (!customerProduct.isPaid()) {
-                    customerProductDatabase.getRecord(customerProduct.getSearchKey()).setPaid(true);
+                    ((CustomerProduct) customerProductDatabase.getRecord(customerProduct.getSearchKey())).setPaid(true);
                     System.out.println("Payment updated successfully!");
                     return true;
                 }
@@ -90,7 +93,7 @@ public class EmployeeRole {
             }
         }
         System.out.println("Purchase operation not found");
-            return false;
+        return false;
     }
 
     public void logout() throws FileNotFoundException {

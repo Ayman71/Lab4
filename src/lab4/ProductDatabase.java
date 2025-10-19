@@ -14,9 +14,8 @@ import java.util.Scanner;
  *
  * @author Ayman
  */
-public class ProductDatabase {
+public class ProductDatabase extends Database {
 
-    private ArrayList<Product> records;
     private final String filename;
 
     public ProductDatabase(String filename) throws FileNotFoundException {
@@ -24,20 +23,22 @@ public class ProductDatabase {
         readFromFile();
     }
 
+    @Override
     public void readFromFile() throws FileNotFoundException {
         File file = new File(filename);
         Scanner scanner = new Scanner(file);
-        records = new ArrayList<Product>();
+        records = new ArrayList<Record>();
 
         while (scanner.hasNextLine()) {
             String line = scanner.nextLine();
-            Product product = createRecordFrom(line);
-            insertRecord(product);
+            Record record = createRecordFrom(line);
+            insertRecord(record);
         }
 
     }
 
-    public Product createRecordFrom(String line) {
+    @Override
+    public Record createRecordFrom(String line) {
         String[] tokens = line.split(",");
         String productID = tokens[0];
         String productName = tokens[1];
@@ -49,10 +50,7 @@ public class ProductDatabase {
         return product;
     }
 
-    public ArrayList<Product> returnAllRecords() {
-        return records;
-    }
-
+    @Override
     public boolean contains(String key) {
         for (int i = 0; i < records.size(); i++) {
             if (records.get(i).getSearchKey().equals(key)) {
@@ -62,7 +60,8 @@ public class ProductDatabase {
         return false;
     }
 
-    public Product getRecord(String key) {
+    @Override
+    public Record getRecord(String key) {
         if (contains(key)) {
             for (int i = 0; i < records.size(); i++) {
                 if (records.get(i).getSearchKey().equals(key)) {
@@ -75,11 +74,12 @@ public class ProductDatabase {
         return null;
     }
 
-    public void insertRecord(Product record) throws FileNotFoundException {
+    public void insertRecord(Record record) throws FileNotFoundException {
         records.add(record);
         //saveToFile();
     }
 
+    @Override
     public void deleteRecord(String key) throws FileNotFoundException {
         if (contains(key)) {
             for (int i = 0; i < records.size(); i++) {
@@ -93,6 +93,7 @@ public class ProductDatabase {
         }
     }
 
+    @Override
     public void saveToFile() throws FileNotFoundException {
         PrintWriter pw = new PrintWriter(filename);
         for (int i = 0; i < records.size(); i++) {

@@ -1,7 +1,7 @@
 package lab4;
+
 import java.io.FileNotFoundException;
 import java.time.LocalDate;
-
 
 public class TestClass {
 
@@ -12,16 +12,15 @@ public class TestClass {
         admin = new AdminRole();
         employee = new EmployeeRole();
     }
-      
+
     public void testAdminRole() throws FileNotFoundException {
-       
+
         EmployeeUser[] employees = admin.getListOfEmployees();
         for (EmployeeUser emp : employees) {
             admin.removeEmployee(emp.getSearchKey());
         }
         admin.logout();
         admin = new AdminRole();
-
 
         employees = admin.getListOfEmployees();
         if (employees.length != 0) {
@@ -58,24 +57,24 @@ public class TestClass {
     }
 
     public void testEmployeeRole() throws FileNotFoundException {
-         employee.addProduct("STK-003", "MacBook  15-inch", "Apple", "BestBuy", 4, 2000);
+        employee.addProduct("STK-003", "MacBook  15-inch", "Apple", "BestBuy", 4, 2000);
         employee.addProduct("SWE-002", "Samsung A20", "Samsung", "Amazon", 3, 1200);
         employee.addProduct("GOL-005", "xBOX", "Sony", "GameStop", 4, 200);
         employee.addProduct("SAA-001", " tv", "Google", "Walmart", 4, 200);
         employee.addProduct("WTSS-004", "dumbel", "Fitbit", "Target", 1, 150);
-        Product[] oldProducts = employee.getListOfProducts();
+        Record[] oldProducts = employee.getListOfProducts();
         /* where old products*/
         employee.addProduct("LPT-001", "MacBook Pro 16-inch", "Apple", "BestBuy", 2, 5000);
         employee.addProduct("SMT-002", "Samsung Galaxy S22", "Samsung", "Amazon", 3, 1200);
         employee.addProduct("GMC-003", "PlayStation 5", "Sony", "GameStop", 4, 500);
         employee.addProduct("SPK-004", "Google Nest Audio", "Google", "Walmart", 1, 200);
         employee.addProduct("WTCH-005", "Fitbit Versa 3", "Fitbit", "Target", 2, 150);
-        Product[] newProducts = employee.getListOfProducts();
+        Record[] newProducts = employee.getListOfProducts();
         if (newProducts.length - oldProducts.length != 5) {
             System.out.println("There is a problem in adding new products to the products file or arraylist");
             return;
         }
-        CustomerProduct[] oldOperations = employee.getListOfPurchasingOperations();
+        Record[] oldOperations = employee.getListOfPurchasingOperations();
 
         String customer1 = "1111111";
         String customer2 = "2222222";
@@ -106,19 +105,22 @@ public class TestClass {
             System.out.println("Purchase4: it is an invalid purchase.\nHowever, your code accepts it. Fix your code!!!");
             return;
         }
-        CustomerProduct[] newOperations = employee.getListOfPurchasingOperations();
+        Record[] newOperations = employee.getListOfPurchasingOperations();
         if (newOperations.length - oldOperations.length != 3) {
             System.out.println("There is a problem in adding new operations to the customers products file or arraylist");
             return;
         }
-        double returnValue=employee.returnProduct(oP3.getCustomerSSN(), oP3.getProductID(), oP3.getPurchaseDate(), LocalDate.of(2023, 5, 17));
-        
+        double returnValue = employee.returnProduct(oP3.getCustomerSSN(), oP3.getProductID(), oP3.getPurchaseDate(), LocalDate.of(2023, 5, 17));
+        if (returnValue != Double.parseDouble(newProducts[oldProducts.length + 3].lineRepresentation().split(",")[5])) {
+            System.out.println("There is a problem in returning the products");
+            return;
+        }
         result = addPurchaseOperation(oP5);
-        
+
         if (!result) {
             System.out.println("Purchase5: it is a valid purchase.\nHowever, your code refuses it. Fix your code!!!");
             return;
-        }        
+        }
         employee.logout();
         System.out.println("You have passed the tests of employee role.\nHowever, there will be different tests during the discussion.\nMake sure that you have implemented all the requirements correctly");
     }
@@ -128,6 +130,6 @@ public class TestClass {
         test.testAdminRole();
         System.out.println("---------------------------------------------------\n---------------------------------------------------");
         test.testEmployeeRole();
-        
+
     }
 }

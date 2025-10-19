@@ -15,9 +15,8 @@ import java.util.Scanner;
  *
  * @author Ayman
  */
-public class CustomerProductDatabase {
+public class CustomerProductDatabase extends Database {
 
-    private ArrayList<CustomerProduct> records;
     private final String filename;
 
     public CustomerProductDatabase(String filename) throws FileNotFoundException {
@@ -25,33 +24,33 @@ public class CustomerProductDatabase {
         readFromFile();
     }
 
+    @Override
     public void readFromFile() throws FileNotFoundException {
         File file = new File(filename);
         Scanner scanner = new Scanner(file);
-        records = new ArrayList<CustomerProduct>();
+        records = new ArrayList<Record>();
 
         while (scanner.hasNextLine()) {
             String line = scanner.nextLine();
-            CustomerProduct customerProduct = createRecordFrom(line);
-            insertRecord(customerProduct);
+            Record record = createRecordFrom(line);
+            insertRecord(record);
         }
     }
-    public CustomerProduct createRecordFrom(String line) {
+
+    @Override
+    public Record createRecordFrom(String line) {
         String[] tokens = line.split(",");
         String customerSSN = tokens[0];
         String productID = tokens[1];
         String[] dateTokens = tokens[2].split("-");
         boolean paid = Boolean.parseBoolean(tokens[3]);
-        LocalDate purchaseDate =LocalDate.of(Integer.parseInt(dateTokens[2]), Integer.parseInt(dateTokens[1]), Integer.parseInt(dateTokens[0]));
+        LocalDate purchaseDate = LocalDate.of(Integer.parseInt(dateTokens[2]), Integer.parseInt(dateTokens[1]), Integer.parseInt(dateTokens[0]));
         CustomerProduct customerProduct = new CustomerProduct(customerSSN, productID, purchaseDate);
         customerProduct.setPaid(paid);
         return customerProduct;
     }
-    
-    public ArrayList<CustomerProduct> returnAllRecords() {
-        return records;
-    }
-    
+
+    @Override
     public boolean contains(String key) {
         for (int i = 0; i < records.size(); i++) {
             if (records.get(i).getSearchKey().equals(key)) {
@@ -60,8 +59,9 @@ public class CustomerProductDatabase {
         }
         return false;
     }
-    
-     public CustomerProduct getRecord(String key) {
+
+    @Override
+    public Record getRecord(String key) {
         if (contains(key)) {
             for (int i = 0; i < records.size(); i++) {
                 if (records.get(i).getSearchKey().equals(key)) {
@@ -73,12 +73,13 @@ public class CustomerProductDatabase {
         }
         return null;
     }
-     
-    public void insertRecord(CustomerProduct record) throws FileNotFoundException {
+
+    public void insertRecord(Record record) throws FileNotFoundException {
         records.add(record);
         //saveToFile();
     }
-    
+
+    @Override
     public void deleteRecord(String key) throws FileNotFoundException {
         if (contains(key)) {
             for (int i = 0; i < records.size(); i++) {
@@ -91,7 +92,8 @@ public class CustomerProductDatabase {
             System.out.println("No such purchase operation found.");
         }
     }
-    
+
+    @Override
     public void saveToFile() throws FileNotFoundException {
         PrintWriter pw = new PrintWriter(filename);
         for (int i = 0; i < records.size(); i++) {
@@ -100,3 +102,4 @@ public class CustomerProductDatabase {
         pw.close();
     }
 }
+

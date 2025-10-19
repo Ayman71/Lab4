@@ -8,7 +8,7 @@ package lab4;
  *
  * @author Mariam
  */
-public class Product {
+public class Product implements Record {
 
     private final String productID, productName, manufacturerName, supplierName;
     private int quantity;
@@ -31,13 +31,14 @@ public class Product {
         this.quantity = quantity;
     }
 
+    @Override
     public String lineRepresentation() {
         return productID + "," + productName + "," + manufacturerName + "," + supplierName + "," + quantity + "," + price;
     }
 
+    @Override
     public String getSearchKey() {
         return productID;
     }
 
 }
-

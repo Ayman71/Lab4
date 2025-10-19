@@ -14,29 +14,30 @@ import java.util.Scanner;
  *
  * @author Ayman
  */
-public class EmployeeUserDatabase {
+public class EmployeeUserDatabase extends Database {
 
-    private ArrayList<EmployeeUser> records;
     private final String filename;
 
     public EmployeeUserDatabase(String filename) {
         this.filename = filename;
     }
 
+    @Override
     public void readFromFile() throws FileNotFoundException {
         File file = new File(filename);
         Scanner scanner = new Scanner(file);
-        records = new ArrayList<EmployeeUser>();
+        records = new ArrayList<Record>();
 
         while (scanner.hasNextLine()) {
             String line = scanner.nextLine();
-            EmployeeUser employeeUser = createRecordFrom(line);
-            records.add(employeeUser);
+            Record record = createRecordFrom(line);
+            records.add(record);
         }
 
     }
 
-    public EmployeeUser createRecordFrom(String line) {
+    @Override
+    public Record createRecordFrom(String line) {
         String[] tokens = line.split(",");
         String employeeID = tokens[0];
         String name = tokens[1];
@@ -47,10 +48,7 @@ public class EmployeeUserDatabase {
         return employeeUser;
     }
 
-    public ArrayList<EmployeeUser> returnAllRecords() {
-        return records;
-    }
-
+    @Override
     public boolean contains(String key) {
         for (int i = 0; i < records.size(); i++) {
             if (records.get(i).getSearchKey().equals(key)) {
@@ -60,7 +58,8 @@ public class EmployeeUserDatabase {
         return false;
     }
 
-    public EmployeeUser getRecord(String key) {
+    @Override
+    public Record getRecord(String key) {
         if (contains(key)) {
             for (int i = 0; i < records.size(); i++) {
                 if (records.get(i).getSearchKey().equals(key)) {
@@ -73,10 +72,11 @@ public class EmployeeUserDatabase {
         return null;
     }
 
-    public void insertRecord(EmployeeUser record) throws FileNotFoundException {
+    public void insertRecord(Record record) throws FileNotFoundException {
         records.add(record);
     }
 
+    @Override
     public void deleteRecord(String key) throws FileNotFoundException {
         if (contains(key)) {
             for (int i = 0; i < records.size(); i++) {
@@ -89,6 +89,7 @@ public class EmployeeUserDatabase {
         }
     }
 
+    @Override
     public void saveToFile() throws FileNotFoundException {
         PrintWriter pw = new PrintWriter(filename);
         for (int i = 0; i < records.size(); i++) {
@@ -96,4 +97,5 @@ public class EmployeeUserDatabase {
         }
         pw.close();
     }
+
 }
