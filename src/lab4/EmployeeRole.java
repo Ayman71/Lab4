@@ -27,6 +27,7 @@ public class EmployeeRole {
     public void addProduct(String productID, String productName, String manufacturerName, String supplierName, int quantity, float price) throws FileNotFoundException {
         Product product = new Product(productID, productName, manufacturerName, supplierName, quantity, price);
         productsDatabase.insertRecord(product);
+        System.out.println("Product added Successfully!");
     }
 
     public Record[] getListOfProducts() throws FileNotFoundException {

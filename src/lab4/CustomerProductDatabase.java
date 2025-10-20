@@ -17,24 +17,9 @@ import java.util.Scanner;
  */
 public class CustomerProductDatabase extends Database {
 
-    private final String filename;
-
     public CustomerProductDatabase(String filename) throws FileNotFoundException {
-        this.filename = filename;
+        super(filename);
         readFromFile();
-    }
-
-    @Override
-    public void readFromFile() throws FileNotFoundException {
-        File file = new File(filename);
-        Scanner scanner = new Scanner(file);
-        records = new ArrayList<Record>();
-
-        while (scanner.hasNextLine()) {
-            String line = scanner.nextLine();
-            Record record = createRecordFrom(line);
-            insertRecord(record);
-        }
     }
 
     @Override
@@ -48,58 +33,6 @@ public class CustomerProductDatabase extends Database {
         CustomerProduct customerProduct = new CustomerProduct(customerSSN, productID, purchaseDate);
         customerProduct.setPaid(paid);
         return customerProduct;
-    }
-
-    @Override
-    public boolean contains(String key) {
-        for (int i = 0; i < records.size(); i++) {
-            if (records.get(i).getSearchKey().equals(key)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    @Override
-    public Record getRecord(String key) {
-        if (contains(key)) {
-            for (int i = 0; i < records.size(); i++) {
-                if (records.get(i).getSearchKey().equals(key)) {
-                    return records.get(i);
-                }
-            }
-        } else {
-            System.out.println("No such purchase operation found.");
-        }
-        return null;
-    }
-
-    public void insertRecord(Record record) throws FileNotFoundException {
-        records.add(record);
-        //saveToFile();
-    }
-
-    @Override
-    public void deleteRecord(String key) throws FileNotFoundException {
-        if (contains(key)) {
-            for (int i = 0; i < records.size(); i++) {
-                if (records.get(i).getSearchKey().equals(key)) {
-                    records.remove(i);
-                    //saveToFile();
-                }
-            }
-        } else {
-            System.out.println("No such purchase operation found.");
-        }
-    }
-
-    @Override
-    public void saveToFile() throws FileNotFoundException {
-        PrintWriter pw = new PrintWriter(filename);
-        for (int i = 0; i < records.size(); i++) {
-            pw.println(records.get(i).lineRepresentation());
-        }
-        pw.close();
     }
 }
 
