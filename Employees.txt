@@ -1,5 +1,1 @@
-E1,Ahmed,ahmed@email.com,123 Street,Cairo,01022334455
-E2,Mohamed,mohamed@email.com,456 Boulevard,Giza,01155667788
-E3,Mariam,mariam@email.com,789 Avenue,Alexandria,01066778899
-E4,Hossam,hossam@email.com,101 Lane,Luxor,01098765432
-E5,Nour,nour@email.com,202 Drive,Aswan,01123456789
+E002,Mohamed,mohamed@retail.com,Cairo,0123456780

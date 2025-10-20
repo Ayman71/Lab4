@@ -33,7 +33,6 @@ public class AdminRole {
 
     public Record[] getListOfEmployees() {
 
-        // had to conert it since the requirment is to return array not array list and this method returns array list 
         return database.returnAllRecords().toArray(new Record[0]);
 
     }
