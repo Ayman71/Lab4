@@ -76,7 +76,7 @@ abstract public class Database {
                 }
             }
         } else {
-            System.out.println("No employee assocciated with this ID.");
+            System.out.println("No record assocciated with this ID.");
         }
     }
 

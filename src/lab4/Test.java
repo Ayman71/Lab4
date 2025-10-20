@@ -59,7 +59,6 @@ public class Test {
         System.out.println("-------------------Products test------------------------");
         employeeRole.addProduct("P10", "Laptop Stand", "Baseus", "GadgetHub", 40, (float) 350.0);
         employeeRole.addProduct("P11", "Laptop", "MSI", "GadgetHub", 3, (float) 35000.0);
-        
         System.out.println("----------------------------------------------------");
         products = employeeRole.getListOfProducts();
         for (Record record : products) {

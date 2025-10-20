@@ -38,6 +38,7 @@ public class CustomerProduct implements Record {
 
     }
 
+    @Override
     public String lineRepresentation() {
 
         int day = this.purchaseDate.getDayOfMonth();
@@ -60,6 +61,7 @@ public class CustomerProduct implements Record {
 
     }
 
+    @Override
     public String getSearchKey() {
         int day = this.purchaseDate.getDayOfMonth();
         int month = this.purchaseDate.getMonthValue();
