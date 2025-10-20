@@ -8,6 +8,8 @@ package lab4;
  *
  * @author Ayman
  */
-public class Record {
+public interface Record {
+    public abstract String lineRepresentation();
+    public abstract String getSearchKey();
     
 }

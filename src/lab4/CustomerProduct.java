@@ -1,13 +1,12 @@
 package lab4;
 
-import java.awt.datatransfer.FlavorListener;
 import java.time.LocalDate;
 
 /**
  *
  * @author husse
  */
-public class CustomerProduct {
+public class CustomerProduct implements Record {
 
     private final String customerSSN;
     private final String productID;
@@ -65,7 +64,7 @@ public class CustomerProduct {
         int day = this.purchaseDate.getDayOfMonth();
         int month = this.purchaseDate.getMonthValue();
         int year = this.purchaseDate.getYear();
-        
+
         String date = String.format("%02d-%02d", day, month);
         return this.customerSSN + "," + this.productID + "," + date + "-" + year;
     }

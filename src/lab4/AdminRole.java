@@ -12,8 +12,6 @@ public class AdminRole {
 
     public AdminRole() throws FileNotFoundException {   // compostion relationship as admin role is part of data base
         database = new EmployeeUserDatabase("Employees.txt");
-        database.readFromFile();
-
     }
 
     public void addEmployee(String employeeId, String name, String email, String address, String phoneNumber) throws FileNotFoundException {
@@ -33,10 +31,10 @@ public class AdminRole {
 
     }
 
-    public EmployeeUser[] getListOfEmployees() {
+    public Record[] getListOfEmployees() {
 
         // had to conert it since the requirment is to return array not array list and this method returns array list 
-        return database.returnAllRecords().toArray(new EmployeeUser[0]);
+        return database.returnAllRecords().toArray(new Record[0]);
 
     }
 

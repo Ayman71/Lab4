@@ -8,7 +8,7 @@ package lab4;
  *
  * @author Mariam
  */
-public class EmployeeUser {
+public class EmployeeUser implements Record {
 
     private final String employeeId, name, email, address, phoneNumber;
 
@@ -20,10 +20,12 @@ public class EmployeeUser {
         this.phoneNumber = phoneNumber;
     }
 
+    @Override
     public String lineRepresentation() {
         return employeeId + "," + name + "," + email + "," + address + "," + phoneNumber;
     }
 
+    @Override
     public String getSearchKey() {
         return employeeId;
     }
