@@ -26,11 +26,17 @@ public class EmployeeRole {
 
     public void addProduct(String productID, String productName, String manufacturerName, String supplierName, int quantity, float price) throws FileNotFoundException {
         Product product = new Product(productID, productName, manufacturerName, supplierName, quantity, price);
-        productsDatabase.insertRecord(product);
-        System.out.println("Product added Successfully!");
+        if (productsDatabase.contains(productID)) {
+            System.out.println("Duplicate Product");
+        } else {
+            productsDatabase.insertRecord(product);
+            System.out.println("Product added Successfully!");
+        }
+
     }
 
     public Record[] getListOfProducts() throws FileNotFoundException {
+
         return productsDatabase.returnAllRecords().toArray(new Record[0]);
     }
 
@@ -69,7 +75,13 @@ public class EmployeeRole {
         } else if (returnDate.isAfter(purchaseDate.plusDays(14))) {
             System.out.println("14-Days limit exceeded!");
             return -1;
-        } else {
+
+        } else if (returnDate.isBefore(purchaseDate)) {
+            System.out.println("14-Days limit exceeded!");
+            return -1;
+
+        } 
+        else {
             Record record = productsDatabase.getRecord(productID);
             Product product = (Product) record;
             product.setQuantity(product.getQuantity() + 1);
